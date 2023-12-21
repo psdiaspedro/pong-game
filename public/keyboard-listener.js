@@ -22,7 +22,7 @@ export default function createKeyboardListener(document) {
     }
 
     document.addEventListener("keydown", handleKeyDown)
-    document.addEventListener("keyup", handleKeyUp)
+    //document.addEventListener("keyup", handleKeyUp)
 
     function handleKeyDown(event) {
 
@@ -36,13 +36,11 @@ export default function createKeyboardListener(document) {
         }
 
         notifyAll(command)
-
-        //game.movePlayer(command)
     }
 
-    function handleKeyUp() {
-        //console.log("soltou")
-    }
+    // function handleKeyUp() {
+    //     //console.log("soltou")
+    // }
 
     return {
         registerPlayerId,

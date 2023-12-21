@@ -64,13 +64,13 @@ function draw(context, game) {
     }
 
     // Draw the net (Line in the middle)
-    context.beginPath();
-    context.setLineDash([7, 15]);
-    context.moveTo((game.screen.width / 2), game.screen.height - 140);
-    context.lineTo((game.screen.width / 2), 140);
-    context.lineWidth = 10;
-    context.strokeStyle = '#ffffff';
-    context.stroke();
+    // context.beginPath();
+    // context.setLineDash([7, 15]);
+    // context.moveTo((game.screen.width / 2), game.screen.height - 140);
+    // context.lineTo((game.screen.width / 2), 140);
+    // context.lineWidth = 10;
+    // context.strokeStyle = '#ffffff';
+    // context.stroke();
 
     // Set the default canvas font and align it to the center
     context.font = '100px Courier New';
@@ -168,37 +168,7 @@ function updateState(canvas, context, game, requestAnimationFrame) {
             player1.y = (game.screen.height - player1.height)
         }
         
-        
-        // Move ball in intended direction based on moveY and moveX values
-        if (ball.moveY === game.DIRECTION.UP) {
-            ball.y -= (ball.speed / 1.5)
-        } else if (ball.moveY === game.DIRECTION.DOWN) {
-            ball.y += (ball.speed / 1.5)
-        }
-        if (ball.moveX === game.DIRECTION.LEFT) {
-            ball.x -= ball.speed
-        }
-        else if (ball.moveX === game.DIRECTION.RIGHT) {
-            ball.x += ball.speed;
-        }
-        
-        // // Handle ai (AI) UP and DOWN movement
-        // if (player2.y > ball.y - (player2.height / 2)) {
-        //     if (ball.moveX === game.DIRECTION.RIGHT) {
-        //         player2.y -= player2.speed / 1.5
-        //     } else {
-        //         player2.y -= player2.speed / 4
-        //     }
-        // }
-        
-        // if (player2.y < ball.y - (player2.height / 2)) {
-        //     if (ball.moveX === game.DIRECTION.RIGHT) {
-        //         player2.y += player2.speed / 1.5
-        //     }else {
-        //         player2.y += player2.speed / 4
-        //     }
-        // }
-        
+
         // Handle player2 wall collision
         if (player2.y >= game.screen.height - player2.height) {
             player2.y = game.screen.height - player2.height
@@ -223,6 +193,31 @@ function updateState(canvas, context, game, requestAnimationFrame) {
                 ball.moveX = game.DIRECTION.LEFT
                 
             }
+        }
+
+        // Handle Player1-Ball collisions
+        if (isCollision(ball, player1)) {
+            ball.x = player1.x + player1.width;
+            ball.moveX = game.DIRECTION.RIGHT;
+        }
+
+        // Handle player2-ball collision
+        if (isCollision(ball, player2)) {
+            ball.x = player2.x - ball.width;
+            ball.moveX = game.DIRECTION.LEFT;
+        }
+
+        // Move ball in intended direction based on moveY and moveX values
+        if (ball.moveY === game.DIRECTION.UP) {
+            ball.y -= (ball.speed / 1.5)
+        } else if (ball.moveY === game.DIRECTION.DOWN) {
+            ball.y += (ball.speed / 1.5)
+        }
+        if (ball.moveX === game.DIRECTION.LEFT) {
+            ball.x -= ball.speed
+        }
+        else if (ball.moveX === game.DIRECTION.RIGHT) {
+            ball.x += ball.speed;
         }
     }
     
@@ -249,6 +244,15 @@ function updateState(canvas, context, game, requestAnimationFrame) {
         game.state.pong.over = true;
         setTimeout(() => endGameMenu(canvas, context, game, requestAnimationFrame, 'Game Over!'), 1000);
     }
+}
+
+function isCollision(ball, player) {
+    return (
+        ball.x - ball.width <= player.x &&
+        ball.x >= player.x - player.width &&
+        ball.y <= player.y + player.height &&
+        ball.y + ball.height >= player.y
+    )
 }
 
 

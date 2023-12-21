@@ -38,31 +38,28 @@
     <script type="module">
         import createKeyboardListener from "./keyboard-listener.js"
         import createGame from "./game.js"
-        import runGame from "./run.js"
+        import renderScreen from "./render-screen.js"
         import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js"
 
         const game = createGame()
         const keyboardListener = createKeyboardListener(document)
-
-
         
-        //socket é um event emitter
+        //socket é um event emmiter
         const socket = io()
-
 
         //connect é quando se consegue se conectar com sucesso no servidor
         socket.on("connect", () => {
             const socketid = socket.id
-            const screen = document.getElementById('screen')
-            const context = screen.getContext('2d')
-
-            runGame(context, game, requestAnimationFrame, socket)
+            
+            const canvas = document.getElementById('screen')
+            renderScreen(canvas, game, requestAnimationFrame)
         })
-
-
 
         socket.on("setup", (state) => {
             game.setState(state)
+
+            // const canvas = document.getElementById('screen')
+            // renderScreen(canvas, game, requestAnimationFrame)
 
             //registra pra ouvir o teclado apenas player1 e player2
             if (game.getParticipant(socket.id) === "player1" || game.getParticipant(socket.id) === "player2") {
