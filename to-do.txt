@@ -1,0 +1,11 @@
+//// Perguntas e modificacoes
+- Como vai funcionar o sistema de salas?
+    - Atualmente o jogo inicia junto com o servidor
+        
+- Reconect
+    - Ao dar refresh na tela, o jogador recebe um novo socketid
+    - Atualmente ele nao entra na mesma posicao de player
+        - cookie de sessão? como relembrar a posicao do player?
+
+- Depois que o jogo comecou, alguém vai poder entrar no game?
+    -
